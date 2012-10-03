@@ -1,0 +1,147 @@
+;; This buffer is for notes you don't want to save, and for Lisp evaluation.
+;; If you want to create a file, visit that file with C-x C-f,
+;; then enter the text in that file's own buffer.
+
+* Algorithms
+
+** What is an Algorithm?
+   
+   A systematic mechanism for calcualtion. An automatic procedure,
+   fully defined, for carrying out some calculation.
+
+   Examples:
+
+   * mechanism for calulating mutiplication
+
+** Euler Paths
+
+** Naive ALgorithm
+
+   Means of algorithmically calculating the proudct of 2 numbers.
+
+*** Definition
+
+    #+begin_src python
+    def naive(a, b):
+        x = a; y = b
+        z = 0
+        while x > 0:
+        ...
+        # todo     
+        return z
+    #+end_src
+
+** Russian Peasants Algorithm
+
+   Means of calcualting the product of 2 integers in fewer steps than
+   the naive algorithm.
+
+   [[http://en.wikipedia.org/wiki/Ancient_Egyptian_multiplication][Wikipedia entry on this Algorithm]]
+
+   It converts the x, see below, into its binary representation and
+   only adds when there is a power of 2. For each power of 2, i.e. a
+   digit in the binary representation of the number, it multiplies the
+   other operand by 2 to the power of the matchin number of binary
+   places and adds it to the accumalator.
+
+   An example:
+
+   20 * 7
+
+   20 = 1*2^4 + 0*2^3 + 1*2^2 + 0*2^1 + 0*2^0
+    7 = 0*2^4 + 0*2^3 + 1*2^2 + 1*2^1 + 1*2^0
+
+   Caluclation would be, since we can ignore all of the powers
+   mutiplied by 0:
+
+   (1*2^4 * 7) + (1*2^2 * 7) == (7*2*2*2*2) + (7*2*2)
+
+   So in the algorithm we are iterating across the binary digits of x
+   in reverse order. For each iteration we mutiply y by 2, which keeps
+   track of the powers of 2 of the current position in the binarry
+   representation of x. When we find a digit, i.e. when the current
+   value of x is even, we add the current value of y to the
+   accumalator - where y has been already been mutiplied by the
+   correct number of powers of 2 that represent the current digit in
+   x.
+
+*** Definition
+
+   #+begin_src python
+   def russian(a, b):
+       x = a; y = b
+       z = 0
+       while x > 0:
+           if x % 2 == 1 : z = z + y
+           y = y << 1
+           x = x >> 1
+       return z
+   #+end_src
+
+*** Proof of Correctness
+
+    Hinges on proving the follwoing for the begining and end of the
+    loop:
+
+        ab = xy + z
+
+    So we start of with a base case and then we look at testing if
+    this still holds with the newly calculated values of x', y' and z' in
+    terms of x, y, z (representing the new values of each of thease in
+    terms of the old value modified by passing through the loop) -
+    i.e. the next value).
+
+    Base case - before entering the loop:
+
+        ab = ab + 0 = ab : since x = a & y = b
+    
+    Within the loop we have 2 case (x is odd / even):
+
+    x is even:
+    
+        ab = x'y' + z'
+
+        x' = x/2
+        y' = 2y
+        z' = z
+    
+        ab = (x/2)(2/y) + z = xy + z
+
+    x is odd:
+
+        ab = x'y' + z'
+
+        x' = (x-1)/2
+        y' = 2y
+        z' = z + y
+
+        ab = (x-1)/2 * 2y + z + y = xy - y + z - y = xy + z = ab
+
+    I can see how this is conserved and I can see that for the final
+    case, where x' = 0:
+
+        ab = 0*y + z = z
+
+    and so the value must be conserved at all steps through the loop
+    in order for it to be the case that at the end we can accept that
+    ab = z. So that proving that xy + z is conserved, within the scope
+    of the operations occuring within the while loop, we can see that
+    when x = 0, at the end of the while loop, then the value of z will
+    be equal to ab.
+
+
+*** Worked Example
+
+    for russian(20, 7) :
+
+    |  x |   y |   z | Notes         |
+    |----+-----+-----+---------------|
+    | 20 |   7 |   0 | Prior to Loop |
+    | 10 |  14 |   0 | 1st Loop      |
+    |  5 |  28 |   0 | 2             |
+    |  2 |  56 |  28 | 3             |
+    |  1 | 112 |  28 | 4             |
+    |  0 | 224 | 140 | 5th Loop      |
+    |    |     |     |               |
+    
+** Mesauring Time
