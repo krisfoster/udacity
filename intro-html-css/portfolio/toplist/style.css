@@ -1,0 +1,39 @@
+* {
+  -moz-outline:1px solid red !important;
+  outline:1px solid red !important;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.app {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  max-width: 1165px;
+}
+
+h1 {
+  background-color: #33BEBE;
+  color: white;
+  font-size: 3em;
+  padding-left: 0.5em;
+  max-width: 1165px
+}
+
+.screenshot {
+  max-width: 460px;
+}
+
+.description {
+  float: right;
+  max-width: 705px;
+  padding-left: 20px;
+  margin: 0px;
+}

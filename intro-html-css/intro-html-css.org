@@ -1,0 +1,23 @@
+* Course Notes
+** How CSS Selectors Work
+   [[https://css-tricks.com/how-css-selectors-work/]]
+
+   In order of specificity:
+
+   - ID         : #id1 {}
+   - Class      : .class1 {}
+   - Tag        : p {}
+   - Attribute  : [data-modal="open"] {} Not supported in IE6
+   - Positional : :nth-child(2) {}
+   - pseudo     ::empty {}
+
+   Combining:
+
+   - .module.news {}
+   - #footer::after {}
+   - section[data-open] {}
+   - descendant selector : ul li
+   - child selector : ul > li
+   - adjacent sibling : p + p {}
+   - general sibling : p ~ p
+   -
